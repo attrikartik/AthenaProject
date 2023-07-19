@@ -48,3 +48,31 @@ class Courses(views.View):
         # context['v_courses'] = view_courses
 
         return render(request, 'Athena/course_page.html', context)
+
+
+class Login(views.View):
+
+    def get(self, request):
+        context = {'title': 'Login'}
+        return render(request, 'Athena/login.html', context)
+
+    def post(self, request):
+        email = request.POST['email']
+        password = request.POST['password']
+        print("Login :", email, password)
+        User = get_user_model()
+        try:
+            user_e = User.objects.get(email__exact=email)
+        except User.DoesNotExist as e:
+            print('New user, redirect to signin page')
+            return redirect('signup_page')
+        else:
+            print(user_e.username)
+            user = authenticate(request, username=user_e.username, password=password)
+            if user is not None:
+                login(request, user)
+                print('Opening dashboard for the user {}'.format(user_e.username))
+                return redirect('dash_page')
+            else:
+                print('Login password combination incorrect')
+                return redirect('login_page')

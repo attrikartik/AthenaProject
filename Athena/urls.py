@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.Dash.as_view(), name='home_page'),
     path('dash', views.Dash.as_view(), name='dash_page'),
     path('course', views.Courses.as_view(), name='course_page'),
+    path('login', views.Login.as_view(), name='login_page'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
