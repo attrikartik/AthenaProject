@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta name="viewport" content=""width=device-width, initial-scale="1.0">
+    <meta charset="UTF-8">
+    <title>Athena</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Athena/css/base_style.css' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'Athena/media/Athena-logo.png' %}"/>
+    {% block stylesheets %} {% endblock stylesheets %}
+    <!-- #ffffff light semi-light #c9d9f0 Dark #070708 -->
+</head>
+<body>
+<div class="header">
+    <div class="nav-bar">
+        <div class="logo-head">
+
+            <img width="40" height="40" src="{% static "Athena/media/Athena-logo.png" %}" alt="Logo"/>
+        </div>
+        <ul class="nav-links">
+            <li>
+                {% block nav_item_home %}
+                <div class="nav-border ">
+                    <a href="{% url 'dash_page' %}"><img width="40" height="40" src="https://img.icons8.com/eeeeee/sf-regular/48/home.png" alt="home"/></a>
+                </div>
+                {% endblock nav_item_home %}
+            </li>
+            <li>
+                {% block nav_item_course %}
+                <div class="nav-border ">
+                    <a href=""><img width="40" height="40" src="https://img.icons8.com/eeeeee/fluency-systems-regular/48/user.png" alt="user"/></a>
+                </div>
+                {% endblock nav_item_course %}
+            </li>
+            <li>
+                {% block nav_item_chat %}
+                <div class="nav-border ">
+                    <a href=""><img width="40" height="40" src="https://img.icons8.com/eeeeee/material-outlined/48/speech-bubble-with-dots.png" alt="message"/></a>
+                </div>
+                {% endblock nav_item_chat %}
+            </li>
+            <li>
+                {% block nav_item_schedule %}
+                <div class="nav-border ">
+                    <a href=""><img width="40" height="40" src="https://img.icons8.com/eeeeee/pulsar-line/48/thursday.png" alt="calender"/></a>
+                </div>
+                {% endblock nav_item_schedule %}
+            </li>
+            <li>
+                {% block nav_item_deadlines %}
+                <div class="nav-border">
+                    <a href=""><img width="40" height="40" src="https://img.icons8.com/eeeeee/fluency-systems-regular/48/clock--v3.png" alt="clock--v3"/></a>
+                </div>
+                 {% endblock nav_item_deadlines %}
+            </li>
+            <li>
+                {% block nav_item_settings %}
+                <div class="nav-border ">
+                    <a href=""><img width="40" height="40" src="https://img.icons8.com/eeeeee/fluency-systems-regular/48/settings.png" alt="settings"/></a>
+                </div>
+                {% endblock nav_item_settings %}
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <div class="title-bar">
+            <h1 class="page-title">{{ title }}</h1>
+            <div class="search-box">
+                <img width="30" height="30" src="https://img.icons8.com/070708/ios/50/search--v1.png" alt="search"/>
+                <input class="search-f" type="text" name="search-box" placeholder="Search">
+            </div>
+            <div class="nav-border dark">
+                <img width="48" height="48" src="https://img.icons8.com/070708/external-creatype-outline-colourcreatype/64/external-alarm-essential-ui-v2-creatype-outline-colourcreatype-2.png" alt="external-alarm-essential-ui-v2-creatype-outline-colourcreatype-2"/>
+            </div>
+{#            {% if user.is_authenticated %}#}
+            <div class="nav-border">
+                {% if profile_img %}
+                    <img id="user_profile_btn" class="rounded" width="60" height="60" src="{{ profile_img.url }}" alt="user"/>
+                {% else %}
+                    <img id="user_profile_btn" class="rounded" width="60" height="60" src="{% static "Athena/media/user.jpg" %}" alt="user"/>
+                {% endif %}
+            </div>
+            <div class="menu" id="menu">
+                <ul>
+                    <li><a href=""><img width="20" height="20" src="https://img.icons8.com/070708/fluency-systems-regular/48/settings.png" alt="settings"/> Settings</a></li>
+                    <li><a href=""><img width="20" height="20" src="https://img.icons8.com/070708/ios/50/logout-rounded--v1.png" alt="exit--v1"/>Logout</a></li>
+                </ul>
+            </div>
+{#            {% else %}#}
+            <div class="nav-border">
+                <img id="user_profile_btn" class="rounded unk" width="60" height="60" src="https://img.icons8.com/222222/fluency-systems-regular/48/user.png" alt="user"/>
+            </div>
+            <div class="menu" id="menu">
+                <ul>
+                    <li><a href=""><img width="20" height="20" src="https://img.icons8.com/070708/ios/50/login-rounded-right--v1.png" alt="exit--v1"/>Login</a></li>
+                </ul>
+            </div>
+{#            {% endif %}#}
+        </div>
+        <div class="page-container">
+            {% block page %}
+
+            {% endblock %}
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'Athena/js/nav_bar.js' %}"></script>
+{% block extrascripts %}
+
+{% endblock %}
+</body>
+</html>
