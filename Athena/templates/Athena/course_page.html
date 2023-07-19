@@ -1,0 +1,127 @@
+{% extends 'Athena/base.html' %}
+{% load static %}
+{% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{% static 'Athena/css/cource_style.css' %}"/>
+{% endblock stylesheets %}
+{% block nav_item_course %}
+    <div class="nav-border sel">
+        <a href="/course"><img width="40" height="40" src="https://img.icons8.com/070708/fluency-systems-regular/48/user.png" alt="user"/></a>
+    </div>
+{% endblock nav_item_course %}
+{% block page %}
+    <!-- Auto course animation on the top -->
+    <div class="banner-widget">
+
+        <div class="banner-container" id="banner-container">
+          <div class="banner-image">
+            <img id="course-image" src="" alt="Course Image">
+          </div>
+          <div id="course-image-overlay" class="banner_overlay"></div>
+
+          <div class="banner-content">
+            <h2 id="course-title"></h2>
+            <p id="course-description"></p>
+            <p id="course-author"></p>
+          </div>
+        </div>
+        <div class="banner-navigation">
+            <span></span>
+            <button id="prev-button">
+                <img width="36" height="36" class="rotate" src="https://img.icons8.com/pastel-glyph/64/circled-chevron-right.png" alt="circled-chevron-right--v1"/>
+            </button>
+            <div id="circle-container"></div>
+            <button id="next-button">
+                <img width="36" height="36" src="https://img.icons8.com/pastel-glyph/64/circled-chevron-right.png" alt="circled-chevron-right--v1"/>
+            </button>
+            <span></span>
+        </div>
+    </div>
+    <!-- Add condition that only If the user is Lesser or above only show this -->
+    <div class="title_1_container">
+        <h2 class="title_h2">My Courses</h2>
+        <button class="primary-btn" onclick="location.href=''">
+            Create
+        </button>
+    </div>
+
+    <div class="course_box">
+        {% for course in my_courses %}
+        <div class="course-view">
+            <div class="course-card">
+                <a href="">
+                    <img class="course_logo" src="{{ course.course_banner.url }}" alt="Course Logo">
+                </a>
+            </div>
+            <h3>{{ course.course_title }}</h3>
+            <p>By: {{ course.author.first_name }} {{ course.author.last_name }}</p>
+        </div>
+        {% empty %}
+            <div class="center-box">
+                <p>No courses created yet. Click on the create button to build new course.</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if e_courses|length > 0 %}
+        <div class="title_1_container">
+            <h2 class="title_h2">Enrolled Courses</h2>
+            {% if e_courses|length > 3 %}
+                <button class="secondary-btn">
+                    View All
+                </button>
+            {% endif %}
+        </div>
+        <div class="course_box">
+            {% for enroll in e_courses %}
+            <div class="course-view">
+                <div class="course-card">
+                    <a href="{% url 'course_details_page' enroll.course.id %}">
+                        <img class="course_logo" src="{{ enroll.course.course_banner.url }}" alt="Course Logo">
+                    </a>
+                </div>
+                <h3>{{ enroll.course.course_title }}</h3>
+                <p>By: {{ enroll.course.author.first_name }} {{ enroll.course.author.last_name }}</p>
+            </div>
+            {% empty %}
+                <div class="center-box">
+                    <p>Not enrolled into any courses yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- Normal Courses visible to all -->
+    <div class="title_1_container">
+        <h2 class="title_h2">All Courses</h2>
+        <button class="secondary-btn" onclick="location.href=''">
+            View All
+        </button>
+    </div>
+    <div id="course-container" class="course-container">
+        {% for course in v_courses %}
+            <div class="course-view t-b-margin">
+              <div class="course-card">
+                <a href="">
+                  <img class="course_logo" src="{{ course.course_banner.url }}" alt="Course Logo">
+                </a>
+              </div>
+              <h3>{{ course.course_title }}</h3>
+              <p>By: {{ course.author.first_name }} {{ course.author.last_name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block extrascripts %}
+    <script>
+        var courses = [];
+        var course_link = '';
+        {% for course in t_courses %}
+            cos = {}
+            cos['course_id'] = "{{ course.id|escapejs }}";
+            cos['course_banner'] = "{{ course.course_banner.url|escapejs }}";
+            cos['course_title'] = "{{ course.course_title|escapejs }}";
+            cos['course_desc'] = "{{ course.course_desc|escapejs }}";
+            cos['course_author'] = "{{ course.author.first_name|escapejs }} {{ course.author.last_name|escapejs }}";
+            courses.push(cos);
+        {% endfor %}
+    </script>
+    <script src="{% static 'Athena/js/course_page.js' %}"></script>
+{% endblock %}
