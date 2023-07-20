@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Define custom path form files for each user
+def user_directory_path(instance, filename):
+    return f'user_{instance.user.username}/{filename}'
 
 
 class Membership(models.Model):
@@ -70,3 +72,11 @@ class Enrollment(models.Model):
 
     class Meta:
         unique_together = ['user', 'course']
+
+
+class UserProfiles(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to=user_directory_path)
+
+    def __str__(self):
+        return self.user.username
